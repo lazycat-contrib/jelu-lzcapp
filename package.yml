@@ -1,0 +1,18 @@
+package: community.lazycat.app.jelu
+name: Jelu
+version: 0.88.4
+description: "Self-hosted book tracking and review server with multi-user shelves, ratings and Calibre import."
+min_os_version: "1.5.0"
+homepage: https://github.com/bayang/jelu
+author: bayang
+license: MIT
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: Jelu
+    description: "自托管图书追踪与书评库：多用户书架、评分、Calibre 导入。"
+  en:
+    name: Jelu
+    description: "Self-hosted book tracking and review server with multi-user shelves, ratings and Calibre import."

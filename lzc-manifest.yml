@@ -1,0 +1,43 @@
+application:
+  title: Jelu
+  subtitle: 自托管图书追踪与书评库
+  subdomain: jelu
+  multi_instance: false
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://jelu:8080/
+  ingress:
+    - protocol: tcp
+      port: 8080
+      service: jelu
+services:
+  jelu:
+    # upstream: wabayang/jelu:0.88.4
+    image: docker.1ms.run/wabayang/jelu:0.88.4
+    environment:
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/jelu:/config
+usage: |
+  Jelu 是一个自托管的书评/图书追踪库：记录读过的书、评分、
+  写书评、整理书架，支持 Calibre 导入与多用户（每个用户有自己的书架）。
+
+  使用方法：
+  1. 打开应用，如果数据库里还没有任何用户，登录页会出现
+     「创建第一个用户」表单 —— 直接输入你想要的用户名和密码即可，
+     没有默认账号、没有默认口令。
+  2. 之后从同一登录页登录，在右上角头像菜单里添加图书、评分、写书评。
+  3. 管理员登录后可以在管理页创建/管理其他用户的账号。
+
+  数据与安全：
+  - 全部数据（H2 数据库、书籍封面缓存、全文索引）都在 /lzcapp/var/jelu，
+    随应用持久化；卸载应用会一并删除，请自行备份。
+  - 应用自带认证且首次使用可自助建号，因此使用 public_path 直接对外开放，
+    由 Jelu 自己的登录页鉴权；平台入口鉴权同时保留。
+  - 单容器运行，无外部数据库。
+
+  说明：
+  - 未做实机验证：首次建号、登录、图书导入、评分与书评、
+    以及重启后数据持久化均未在设备上实测。
